@@ -6,7 +6,7 @@ const button = document.getElementById("btn");
 button.addEventListener("click", function () {
   // if input box is empty and the add button is clicked
   if (inputBox.value === "") {
-    alert("You Must Write Something!!!");
+    alert("You Must add Something!!!");
   }
   // if there is some value
   else {
@@ -22,6 +22,7 @@ button.addEventListener("click", function () {
   }
   // reseting the input box after adding a todo
   inputBox.value = " ";
+  saveData();
 });
 
 listContainer.addEventListener(
@@ -29,9 +30,21 @@ listContainer.addEventListener(
   function (e) {
     if (e.target.tagName === "LI") {
       e.target.classList.toggle("checked");
+      saveData();
     } else if (e.target.tagName === "SPAN") {
       e.target.parentElement.remove();
+      saveData();
     }
   },
   false
 );
+
+function saveData() {
+  localStorage.setItem("data", listContainer.innerHTML);
+}
+
+function showTask() {
+  listContainer.innerHTML = localStorage.getItem("data");
+}
+
+showTask();
